@@ -29,14 +29,12 @@ func main() {
 		fmt.Println(p)
 	}
 
-	prog, ok := coll.Programs["tracepoint__syscalls_sys_enter_openat"]
+	prog, ok := coll.Programs["tracepoint__syscalls__sys_enter_openat"]
 	if !ok {
-		log.Fatalf("failed to find tracepoint__syscalls_sys_enter_openat in ELF")
+		log.Fatalf("failed to find tracepoint__syscalls__sys_enter_openat in ELF")
 	}
 
-	l, err := link.AttachTracing(link.TracingOptions{
-		Program: prog,
-	})
+	l, err := link.Tracepoint("syscalls", "sys_enter_openat", prog, nil)
 
 	if err != nil {
 		log.Fatalf("failed to attach eBPF program: %v", err)
